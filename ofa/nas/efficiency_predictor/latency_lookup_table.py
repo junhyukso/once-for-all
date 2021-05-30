@@ -333,8 +333,10 @@ class MBv3LatencyTable(LatencyTable):
 
 class ResNet50LatencyTable(LatencyTable):
 
-	def query(self, **kwargs):
-		raise NotImplementedError
+	def query(self, l_type: str, input_shape, output_shape, ks=None, stride=None):
+		infos = [l_type, 'input:%s' % self.repr_shape(input_shape), 'output:%s' % self.repr_shape(output_shape), ]
+		key = '-'.join(infos)
+		return self.lut[key]['mean']
 
 	def predict_network_latency(self, net, image_size):
 		raise NotImplementedError
